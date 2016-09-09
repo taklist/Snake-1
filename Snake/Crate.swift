@@ -6,4 +6,8 @@
 //  Copyright © 2016 John Tinnerholm. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
+
+class Crate {
+        
+}

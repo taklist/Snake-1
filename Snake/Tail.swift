@@ -7,3 +7,27 @@
 //
 
 import Foundation
+import SpriteKit
+
+class Tail : SKSpriteNode {
+        init() {
+                let texture = SKTexture(imageNamed: "snakeTail")
+                super.init(texture: texture, color: SKColor.clearColor() , size: texture.size())
+                
+                self.physicsBody = SKPhysicsBody.init(rectangleOfSize: size)
+                self.physicsBody?.affectedByGravity = false
+                self.physicsBody?.dynamic = true
+                self.physicsBody?.allowsRotation = false
+                self.physicsBody?.pinned = true
+                self.physicsBody?.angularDamping = 0
+                self.physicsBody?.linearDamping = 0
+                self.physicsBody?.mass = 0.1
+                self.physicsBody?.density = 0.1
+
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+                fatalError("init(coder:) has not been implemented")
+        }
+        
+}
