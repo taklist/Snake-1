@@ -20,31 +20,33 @@ enum Direction {
 class Snake : SKSpriteNode {
         
         /*Represents the rate of moment gets increased by taking candy! */
-        private var movementRate:CGFloat = 5
-        private var momentSpeed:CGFloat = 10
+        fileprivate var movementRate:CGFloat = 5
+        fileprivate var momentSpeed:CGFloat = 10
         /*Represents the direction the snake is taking */
-        private var direction = Direction.north
+        fileprivate var direction = Direction.north
         
         init() {
                 
                 let texture = SKTexture(imageNamed: "snakeHead")
                 
-                super.init(texture: texture, color: SKColor.clearColor() , size: texture.size())
+                super.init(texture: texture, color: SKColor.clear , size: texture.size())
                 
-                self.physicsBody = SKPhysicsBody(rectangleOfSize: size)
+                self.physicsBody = SKPhysicsBody(rectangleOf: size)
                 self.physicsBody?.affectedByGravity = false
-                self.physicsBody?.velocity = CGVectorMake(0, 0)
+                self.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
                 self.physicsBody?.allowsRotation = false
                 self.physicsBody?.density = 0.1
-                self.physicsBody?.dynamic = true
+                self.physicsBody?.isDynamic = true
                 self.physicsBody?.categoryBitMask = PhysicsCategory.snake
                 self.physicsBody?.contactTestBitMask = PhysicsCategory.cherry
                 
                 /*Sets the speed each ms to give the impression of constant moment */
-                _ = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(Snake.move), userInfo: nil, repeats: true)
+                _ = Timer.scheduledTimer(timeInterval: 0.1, target: self,
+                                         selector: #selector(Snake.moveItBaby)
+                                        , userInfo: nil, repeats: true)
                 
         }
-        
+    
         required init?(coder aDecoder: NSCoder) {
                 fatalError("init(coder:) has not been implemented")
         }
@@ -134,13 +136,13 @@ class Snake : SKSpriteNode {
         }
         
         func contactWithCherry() {
-                move()
+                moveItBaby()
                 movementRate += 1
         }
         
         
-        
-        func move() {
+    
+        @objc public func moveItBaby()  {
                 
                 switch direction {
                         

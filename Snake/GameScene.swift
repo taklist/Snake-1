@@ -36,60 +36,60 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         let topWall = SKSpriteNode()
         
         
-        override func didMoveToView(view: SKView) {
+        override func didMove(to view: SKView) {
                 /* Setting this scene to be the contact delegate */
                 physicsWorld.contactDelegate = self
                 
-                self.backgroundColor = NSColor.blackColor()
+                self.backgroundColor = NSColor.black
                 
                 /*Init the walls enclosing the game area */
                 initWalls()
                 /*Add the snake to the scene */
                 self.addChild(snake)
-                snake.position = CGPointMake(self.frame.width / 2, self.frame.height / 2)
+                snake.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
                 
                 scoreLabel.text =  "Score \(score)"
-                scoreLabel.color = SKColor.greenColor()
-                scoreLabel.position = CGPointMake(self.frame.width / 2 , self.frame.height - 30)
+                scoreLabel.color = SKColor.green
+                scoreLabel.position = CGPoint(x: self.frame.width / 2 , y: self.frame.height - 30)
                 self.addChild(scoreLabel)
                 
                 /*Timer to make new cherrys spawn each 10 seconds */
-                _ = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(GameScene.spawnCherry), userInfo: nil, repeats: true)
+                _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(GameScene.spawnCherry), userInfo: nil, repeats: true)
                 
         }
         
         /*Calls the key changed events below */
-        override func keyDown(event: NSEvent) {
+        override func keyDown(with event: NSEvent) {
                 interpretKeyEvents([event])
         }
         
-        override func moveUp(sender: AnyObject?) {
+        override func moveUp(_ sender: Any?) {
                 snake.turnUp()
                 
         }
         
-        override func moveDown(sender: AnyObject?) {
+        override func moveDown(_ sender: Any?) {
                 snake.turnDown()
         }
         
-        override func moveLeft(sender: AnyObject?) {
+        override func moveLeft(_ sender: Any?) {
                 snake.turnLeft()
         }
         
-        override func moveRight(sender: AnyObject?) {
+        override func moveRight(_ sender: Any?) {
                 snake.turnRight()
         }
         
-        override func update(currentTime: CFTimeInterval) {
+        override func update(_ currentTime: TimeInterval) {
                 
         }
         
-        override func mouseDown(theEvent: NSEvent) {
+        override func mouseDown(with theEvent: NSEvent) {
                 addTail()
         }
         
         
-        func didBeginContact(contact: SKPhysicsContact) {
+        func didBegin(_ contact: SKPhysicsContact) {
                 let bodyA : SKPhysicsBody = contact.bodyA
                 let bodyB : SKPhysicsBody = contact.bodyB
                 
@@ -106,15 +106,15 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
                         
                         let EndLabel = SKLabelNode()
                         EndLabel.text = "Game over"
-                        EndLabel.position = CGPointMake(self.frame.width / 2 , self.frame.height / 2)
-                        EndLabel.color = SKColor.greenColor()
+                        EndLabel.position = CGPoint(x: self.frame.width / 2 , y: self.frame.height / 2)
+                        EndLabel.color = SKColor.green
                         self.addChild(EndLabel)
                 }
         }
         
         /*Places the cherry on the game scene*/
         func spawnCherry() {
-                if self.childNodeWithName("cherry") == nil {
+                if self.childNode(withName: "cherry") == nil {
                         
                         print("Spawned a cherry")
                         
@@ -129,7 +129,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
                         let randomY :CGFloat = CGFloat(arc4random_uniform(MAX_Y_VAL))
                         
                         self.addChild(cherry)
-                        cherry.position = CGPointMake(MIN_VAL + randomX, MIN_VAL + randomY )
+                        cherry.position = CGPoint(x: MIN_VAL + randomX, y: MIN_VAL + randomY )
                         
                 } else {
                         return
@@ -140,23 +140,23 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
         func initWalls() {
                 
                 /*Sets the properties of the physicbodies of the walls */
-                func setPhysicsBody(spriteNode:SKSpriteNode) {
+                func setPhysicsBody(_ spriteNode:SKSpriteNode) {
                         spriteNode.physicsBody?.affectedByGravity = false
-                        spriteNode.physicsBody?.dynamic = false
+                        spriteNode.physicsBody?.isDynamic = false
                         spriteNode.physicsBody?.categoryBitMask = PhysicsCategory.wall
                         spriteNode.physicsBody?.collisionBitMask = PhysicsCategory.snake
                 }
                 
-                func setColour(spriteNode:SKSpriteNode) {
-                        spriteNode.color = SKColor.brownColor()
+                func setColour(_ spriteNode:SKSpriteNode) {
+                        spriteNode.color = SKColor.brown
                 }
                 
                 
                 /*Setting positions of the walls */
-                leftWall.position = CGPointMake(0 ,self.frame.height/2)
-                rightWall.position = CGPointMake(self.frame.width, self.frame.height/2)
-                topWall.position = CGPointMake(self.frame.width/2 , self.frame.height);
-                bottomWall.position = CGPointMake(self.frame.width/2, 0)
+                leftWall.position = CGPoint(x: 0 ,y: self.frame.height/2)
+                rightWall.position = CGPoint(x: self.frame.width, y: self.frame.height/2)
+                topWall.position = CGPoint(x: self.frame.width/2 , y: self.frame.height);
+                bottomWall.position = CGPoint(x: self.frame.width/2, y: 0)
                 
                 
                 /*Setting the colour for the sprites */
@@ -166,16 +166,16 @@ class GameScene: SKScene , SKPhysicsContactDelegate {
                 setColour(bottomWall)
                 
                 /*Setting the size for the walls*/
-                leftWall.size = CGSizeMake(60, self.frame.maxX)
-                rightWall.size = CGSizeMake(60, self.frame.maxY)
-                topWall.size = CGSizeMake(self.frame.maxX, 60)
-                bottomWall.size = CGSizeMake(self.frame.maxX, 60)
+                leftWall.size = CGSize(width: 60, height: self.frame.maxX)
+                rightWall.size = CGSize(width: 60, height: self.frame.maxY)
+                topWall.size = CGSize(width: self.frame.maxX, height: 60)
+                bottomWall.size = CGSize(width: self.frame.maxX, height: 60)
                 
                 /*Setting up the physicsbody of the walls */
-                leftWall.physicsBody = SKPhysicsBody(rectangleOfSize: leftWall.size)
-                rightWall.physicsBody = SKPhysicsBody(rectangleOfSize: rightWall.size)
-                topWall.physicsBody = SKPhysicsBody(rectangleOfSize: topWall.size)
-                bottomWall.physicsBody = SKPhysicsBody(rectangleOfSize: bottomWall.size)
+                leftWall.physicsBody = SKPhysicsBody(rectangleOf: leftWall.size)
+                rightWall.physicsBody = SKPhysicsBody(rectangleOf: rightWall.size)
+                topWall.physicsBody = SKPhysicsBody(rectangleOf: topWall.size)
+                bottomWall.physicsBody = SKPhysicsBody(rectangleOf: bottomWall.size)
                 
                 setPhysicsBody(leftWall)
                 setPhysicsBody(rightWall)

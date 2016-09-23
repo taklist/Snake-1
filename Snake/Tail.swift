@@ -12,11 +12,11 @@ import SpriteKit
 class Tail : SKSpriteNode {
         init() {
                 let texture = SKTexture(imageNamed: "snakeTail")
-                super.init(texture: texture, color: SKColor.clearColor() , size: texture.size())
+                super.init(texture: texture, color: SKColor.clear , size: texture.size())
                 
-                self.physicsBody = SKPhysicsBody.init(rectangleOfSize: size)
+                self.physicsBody = SKPhysicsBody.init(rectangleOf: size)
                 self.physicsBody?.affectedByGravity = false
-                self.physicsBody?.dynamic = true
+                self.physicsBody?.isDynamic = true
                 self.physicsBody?.allowsRotation = false
                 self.physicsBody?.pinned = true
                 self.physicsBody?.angularDamping = 0

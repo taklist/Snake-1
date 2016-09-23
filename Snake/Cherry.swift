@@ -13,12 +13,12 @@ class Cherry : SKSpriteNode {
         init() {
                 let texture = SKTexture(imageNamed:"cherry")
                 
-                super.init(texture: texture, color: SKColor.clearColor(), size: texture.size())
+                super.init(texture: texture, color: SKColor.clear, size: texture.size())
                 
-                self.physicsBody = SKPhysicsBody(rectangleOfSize: self.size)
+                self.physicsBody = SKPhysicsBody(rectangleOf: self.size)
                 self.physicsBody?.affectedByGravity = false
                 self.name = "cherry"
-                self.physicsBody?.dynamic = false
+                self.physicsBody?.isDynamic = false
                 self.physicsBody?.categoryBitMask = PhysicsCategory.cherry
                 self.physicsBody?.contactTestBitMask = PhysicsCategory.snake
                 
